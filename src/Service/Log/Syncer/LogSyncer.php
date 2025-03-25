@@ -18,7 +18,6 @@ final class LogSyncer implements LogSyncerInterface
         private readonly LogParserInterface $logParser,
         private readonly LogPersisterInterface $persister,
         private readonly MessageBusInterface $messageBus,
-        private readonly LoggerInterface $logger
     ) {
     }
 
