@@ -26,6 +26,7 @@ final class LogSyncer implements LogSyncerInterface
     {
         $total = $this->logParser->getTotal();
 
+        // TODO: WIP - Finalize this
         $result = new LogSyncerResult(
             success: true,
             message: "Logs are about to be synced.",
