@@ -21,6 +21,8 @@
 **/docker-compose.yml
 **/Dockerfile
 **/Thumbs.db
+.idea/
+.DS_Store
 .github/
 docs/
 public/bundles/

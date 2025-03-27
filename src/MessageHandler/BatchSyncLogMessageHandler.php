@@ -9,7 +9,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class BatchSyncLogMessageHandler
 {
-    public function __construct(private readonly  LogSyncerInterface $syncer)
+    public function __construct(private readonly LogSyncerInterface $syncer)
     {
     }
 
