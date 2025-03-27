@@ -15,6 +15,7 @@ final class BatchSyncLogMessage
      public function __construct(
          public readonly int $startAt,
          public readonly int $endAt,
+         public readonly bool $isLastBatch,
      ) {
      }
 }
