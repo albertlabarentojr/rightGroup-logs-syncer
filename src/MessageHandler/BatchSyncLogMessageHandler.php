@@ -15,6 +15,6 @@ final class BatchSyncLogMessageHandler
 
     public function __invoke(BatchSyncLogMessage $message): void
     {
-       $this->syncer->batch($message->startAt, $message->endAt);
+       $this->syncer->batch($message->startAt, $message->endAt, $message->isLastBatch);
     }
 }

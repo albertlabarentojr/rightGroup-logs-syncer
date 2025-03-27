@@ -41,6 +41,7 @@ class ServiceSyncHistory
         $this->line_start = $lineStart;
         $this->line_end = $lineEnd;
         $this->status = $status;
+        $this->sync_date = new \DateTime();
         $this->total = $total;
     }
 

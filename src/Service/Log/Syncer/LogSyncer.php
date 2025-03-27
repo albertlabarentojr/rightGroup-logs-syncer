@@ -7,7 +7,7 @@ namespace App\Service\Log\Syncer;
 use App\Entity\ServiceSyncHistory;
 use App\Message\BatchSyncLogCompletedMessage;
 use App\Message\BatchSyncLogMessage;
-use App\Message\BatchSyncStartedMessage;
+use App\Message\BatchSyncLogStartedMessage;
 use App\Repository\ServiceSyncHistoryRepository;
 use App\Service\Log\Syncer\Enums\SyncLogStatus;
 use App\Service\Log\Syncer\Parser\LogParserInterface;
@@ -40,16 +40,23 @@ final class LogSyncer implements LogSyncerInterface
         /** @var ServiceSyncHistory $latestHistory */
         $latestHistory = $this->historyRepository->latest();
 
-        if ($latestHistory->getStatus() === SyncLogStatus::IN_PROGRESS) {
+        if ($latestHistory?->getStatus() === SyncLogStatus::IN_PROGRESS) {
             return new LogSyncerResult(
                 serviceSyncHistory: $latestHistory,
                 message: 'Syncing logs is currently in progress.',
             );
         }
 
+        if ($latestHistory?->getTotal() === $total) {
+            return new LogSyncerResult(
+                serviceSyncHistory: $latestHistory,
+                message: 'No new logs are available for syncing.',
+            );
+        }
+
         $logHistory = $this->createLogHistory($total);
 
-        $this->messageBus->dispatch(new BatchSyncStartedMessage($logHistory->getId()));
+        $this->messageBus->dispatch(new BatchSyncLogStartedMessage($logHistory->getId()));
 
         for ($start = 0; $start < $total; $start += self::BATCH_COUNT) {
             $next = $start + self::BATCH_COUNT;
@@ -67,9 +74,11 @@ final class LogSyncer implements LogSyncerInterface
             );
         }
 
+        $newLogCount = $logHistory->getTotal() - $logHistory->getLineStart();
+
         return new LogSyncerResult(
             serviceSyncHistory: $logHistory,
-            message: 'Logs has been successfully synced.',
+            message: "Started to sync {$newLogCount} logs...",
         );
     }
 

@@ -19,6 +19,6 @@ class ServiceSyncHistoryRepository extends ServiceEntityRepository
 
     public function latest(): ?ServiceSyncHistory
     {
-        return $this->findOneBy(['status' => SyncLogStatus::DONE->value], ['sync_date' => 'DESC']);
+        return $this->findOneBy([], ['sync_date' => 'DESC']);
     }
 }

@@ -12,6 +12,8 @@ framework:
         routing:
             # Route your messages to the transports
              'App\Message\BatchSyncLogMessage': async
+             App\Message\BatchSyncLogCompletedMessage: sync
+             App\Message\BatchSyncLogStartedMessage: sync
 
 # when@test:
 #    framework:

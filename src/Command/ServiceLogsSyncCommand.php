@@ -35,8 +35,9 @@ class ServiceLogsSyncCommand extends Command
         $startTime = microtime(true);
         $io = new SymfonyStyle($input, $output);
         $memoryUsage = memory_get_usage(true) / 1024 / 1024; // Convert to MB
-        $this->logSyncer->sync();
+        $result = $this->logSyncer->sync();
         $executionTime = microtime(true) - $startTime;
+        $io->success($result->message);
        $io->success('Execution time: ' . number_format($executionTime, 6) . ' seconds');
         $io->success('Memory usage: ' . number_format($memoryUsage, 2) . ' MB');
 
