@@ -1,5 +1,6 @@
-import { startStimulusApp } from '@symfony/stimulus-bundle';
+import { createApp } from 'vue'
+import Home from './vue/analytics/Dashboard.vue'
 
-const app = startStimulusApp();
-// register any custom, 3rd party controllers here
-// app.register('some_controller_name', SomeImportedController);
+const app = createApp(Home)
+
+app.mount('#app')

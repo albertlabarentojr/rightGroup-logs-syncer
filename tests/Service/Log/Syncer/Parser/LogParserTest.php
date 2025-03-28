@@ -40,7 +40,7 @@ final class LogParserTest extends AbstractSyncerTestCase
             ]
         ];
 
-        foreach ($parser->parse() as $index => $log) {
+        foreach ($parser->parse(0) as $index => $log) {
             $expected = $assert[$index];
 
             self::assertEquals(

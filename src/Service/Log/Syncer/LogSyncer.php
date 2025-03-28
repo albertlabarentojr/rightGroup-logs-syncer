@@ -10,6 +10,7 @@ use App\Message\BatchSyncLogMessage;
 use App\Message\BatchSyncLogStartedMessage;
 use App\Repository\ServiceSyncHistoryRepository;
 use App\Service\Log\Syncer\Enums\SyncLogStatus;
+use App\Service\Log\Syncer\Exceptions\LogSyncerException;
 use App\Service\Log\Syncer\Parser\LogParserInterface;
 use App\Service\Log\Syncer\Persister\LogPersisterInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -52,6 +53,10 @@ final class LogSyncer implements LogSyncerInterface
                 serviceSyncHistory: $latestHistory,
                 message: 'No new logs are available for syncing.',
             );
+        }
+
+        if ($total < $latestHistory?->getTotal()) {
+            throw new LogSyncerException("Aggregated file seems to be corrupted.");
         }
 
         $logHistory = $this->createLogHistory($total);

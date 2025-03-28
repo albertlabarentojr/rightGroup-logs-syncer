@@ -18,7 +18,6 @@ final class LogParser implements LogParserInterface
      */
     public function parse(int $lineStart, ?int $lineStop = null): iterable
     {
-        // TODO: implement validator
         $this->logReader->setStartsAt($lineStart);
 
         foreach ($this->logReader->cursor() as $log) {

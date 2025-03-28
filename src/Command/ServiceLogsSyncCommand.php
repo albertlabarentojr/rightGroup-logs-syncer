@@ -23,36 +23,13 @@ class ServiceLogsSyncCommand extends Command
     }
 
     protected function configure(): void
-    {
-        $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
-    }
+    {}
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $startTime = microtime(true);
         $io = new SymfonyStyle($input, $output);
-        $memoryUsage = memory_get_usage(true) / 1024 / 1024; // Convert to MB
         $result = $this->logSyncer->sync();
-        $executionTime = microtime(true) - $startTime;
         $io->success($result->message);
-       $io->success('Execution time: ' . number_format($executionTime, 6) . ' seconds');
-        $io->success('Memory usage: ' . number_format($memoryUsage, 2) . ' MB');
-
-//        $io = new SymfonyStyle($input, $output);
-//        $arg1 = $input->getArgument('arg1');
-//
-//        if ($arg1) {
-//            $io->note(sprintf('You passed an argument: %s', $arg1));
-//        }
-//
-//        if ($input->getOption('option1')) {
-//            // ...
-//        }
-//
-//        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
         return Command::SUCCESS;
     }
