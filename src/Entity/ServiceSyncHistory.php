@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\ServiceSyncHistoryRepository;
+use App\Repository\ServiceLog\ServiceSyncHistoryRepository;
 use App\Service\Log\Syncer\Enums\SyncLogStatus;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;

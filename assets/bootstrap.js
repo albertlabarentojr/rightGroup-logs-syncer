@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
-import Home from './vue/analytics/Dashboard.vue'
+import Dashboard from './vue/modules/analytics/Dashboard.vue'
 
-const app = createApp(Home)
+const app = createApp(Dashboard)
 
 app.mount('#app')

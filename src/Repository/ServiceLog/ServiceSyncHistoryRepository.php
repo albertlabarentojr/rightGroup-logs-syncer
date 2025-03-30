@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\ServiceLog;
 
 use App\Entity\ServiceSyncHistory;
-use App\Service\Log\Syncer\Enums\SyncLogStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

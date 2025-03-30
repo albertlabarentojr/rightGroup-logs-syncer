@@ -8,7 +8,7 @@ use App\Entity\ServiceSyncHistory;
 use App\Message\BatchSyncLogCompletedMessage;
 use App\Message\BatchSyncLogMessage;
 use App\Message\BatchSyncLogStartedMessage;
-use App\Repository\ServiceSyncHistoryRepository;
+use App\Repository\ServiceLog\ServiceSyncHistoryRepository;
 use App\Service\Log\Syncer\Enums\SyncLogStatus;
 use App\Service\Log\Syncer\Exceptions\LogSyncerException;
 use App\Service\Log\Syncer\Parser\LogParserInterface;
@@ -18,20 +18,17 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class LogSyncer implements LogSyncerInterface
 {
-    public const BATCH_COUNT = 10;
-
-    private ServiceSyncHistoryRepository $historyRepository;
+    public const DEFAULT_BATCH_COUNT = 150;
 
     public function __construct(
         private readonly LogParserInterface $logParser,
         private readonly LogPersisterInterface $persister,
         private readonly MessageBusInterface $messageBus,
         private readonly EntityManagerInterface $entityManager,
+        private readonly ServiceSyncHistoryRepository $historyRepository,
+        private ?int $batchCount = null,
     ) {
-        /** @var ServiceSyncHistoryRepository $repository */
-        $repository = $this->entityManager->getRepository(ServiceSyncHistory::class);
-
-        $this->historyRepository = $repository;
+        $this->batchCount ??= self::DEFAULT_BATCH_COUNT;
     }
 
     public function sync(): LogSyncerResult
@@ -63,8 +60,8 @@ final class LogSyncer implements LogSyncerInterface
 
         $this->messageBus->dispatch(new BatchSyncLogStartedMessage($logHistory->getId()));
 
-        for ($start = 0; $start < $total; $start += self::BATCH_COUNT) {
-            $next = $start + self::BATCH_COUNT;
+        for ($start = 0; $start < $total; $start += $this->batchCount) {
+            $next = $start + $this->batchCount;
 
             $end = min($next, $total); // Ensure the end does not exceed total items
 

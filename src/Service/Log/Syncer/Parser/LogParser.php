@@ -47,7 +47,8 @@ final class LogParser implements LogParserInterface
         }
 
         $log = new ServiceLog();
-        $log->setServiceName($matches[1] ?? null);
+        // Make service name to lowercase as it will make filtering much consistent
+        $log->setServiceName(\strtolower($matches[1] ?? ''));
         $log->setLogDate(new \DateTime($matches[2] ?? null));
         $log->setHttpVerb($matches[3] ?? null);
         $log->setUrl($matches[4] ?? null);

@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\ServiceLogRepository;
+use App\Repository\ServiceLog\ServiceLogRepository;
 use App\Service\Log\LogItemInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
