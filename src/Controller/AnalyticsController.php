@@ -15,12 +15,10 @@ final class AnalyticsController extends AbstractController {
     {
     }
 
-    #[Route('/home', name: 'analytics.index', methods: ['GET'])]
+    #[Route('/dashboard', name: 'analytics.dashboard', methods: ['GET'])]
     public function index(): Response
     {
-        return $this->render('analytics/index.html.twig', [
-            'name' => 'John Doe', // Pass variables to the template
-        ]);
+        return $this->render('analytics/dashboard.html.twig');
     }
 
     #[Route('/api/count', name: 'analytics.count', methods: ['GET'])]

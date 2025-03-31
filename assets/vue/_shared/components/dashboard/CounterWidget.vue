@@ -1,12 +1,11 @@
 <template>
     <div class="counter-widget">
-        <div class="counter-icon">#</div>
-        <div class="counter-text">Total Rows: <span class="counter-number">{{count}}</span></div>
+        <div class="counter-text">Total Logs: <span class="counter-number">{{ count }}</span></div>
     </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import {computed} from 'vue';
 
 const props = defineProps({
     count: {
@@ -22,7 +21,6 @@ const props = defineProps({
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 10px 15px;
-    margin-bottom: 15px;
     display: flex;
     align-items: center;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);

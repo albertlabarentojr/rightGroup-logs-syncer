@@ -53,7 +53,7 @@ final class LogSyncer implements LogSyncerInterface
         }
 
         if ($total < $latestHistory?->getTotal()) {
-            throw new LogSyncerException("Aggregated file seems to be corrupted.");
+            throw new LogSyncerException('Aggregated file seems to be corrupted.');
         }
 
         $logHistory = $this->createLogHistory($total);

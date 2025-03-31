@@ -19,7 +19,7 @@ final class ServiceLogFilter
     {
         return new self(
             serviceNames: $request['serviceNames'] ?? null,
-            statusCode: $request['statusCode'] ?? null,
+            statusCode: isset($request['statusCode']) ? (int) $request['statusCode'] : null,
             startDate: isset($request['startDate']) ? new \DateTime($request['startDate']) : null,
             endDate: isset($request['endDate']) ? new \DateTime($request['endDate']) : null,
         );

@@ -3,9 +3,15 @@
 namespace App\Repository\ServiceLog;
 
 use App\Entity\ServiceLog;
+use App\Repository\Data\PaginatedResult;
+use App\Repository\Data\PaginationData;
+use App\Repository\QueryPaginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @extends ServiceEntityRepository<ServiceLog>
@@ -21,10 +27,29 @@ class ServiceLogRepository extends ServiceEntityRepository
     {
         $query = $this->withFilterQuery($filter, fn($query) => $query->select('COUNT(sl.id)'));
 
-        return $query->getSingleScalarResult();
+        return $query->getQuery()->getSingleScalarResult();
     }
 
-    private function withFilterQuery(ServiceLogFilter $filter, ?\Closure $queryModifier = null): Query
+    public function paginated(ServiceLogFilter $filter, PaginationData $paginationData): PaginatedResult
+    {
+        $query = $this->withFilterQuery($filter);
+
+        return QueryPaginator::paginate($query, $paginationData);
+    }
+
+    public function delete(int $id): void
+    {
+        $serviceLog = $this->find($id);
+
+        if ($serviceLog === null) {
+            throw new NotFoundHttpException('Service log not found.');
+        }
+
+        $this->getEntityManager()->remove($serviceLog);
+        $this->getEntityManager()->flush();
+    }
+
+    private function withFilterQuery(ServiceLogFilter $filter, ?\Closure $queryModifier = null): QueryBuilder
     {
         $query = $this->createQueryBuilder('sl');
         $conditions = [];
@@ -63,6 +88,6 @@ class ServiceLogRepository extends ServiceEntityRepository
             $query->where(implode(' AND ', $conditions));
         }
 
-        return $query->getQuery();
+        return $query;
     }
 }
