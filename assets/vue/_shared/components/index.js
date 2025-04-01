@@ -13,7 +13,6 @@ const Form = {
   Select: defineAsyncComponent(() => import('./form/Select.vue')),
   Text: defineAsyncComponent(() => import('./form/Text.vue')),
   Datepicker: defineAsyncComponent(() => import('./form/Datepicker.vue')),
-  DateRangePicker: defineAsyncComponent(() => import('./form/DateRangePicker.vue')),
 }
 
 const Button = {
