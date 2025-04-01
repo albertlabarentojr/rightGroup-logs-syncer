@@ -57,4 +57,4 @@ Front end assets are located here `assets/vue`
 - 100% test coverage
 - Front-end components using Storybook
 - Add an additional driver as AlgoliaPersister (LogPersisterInterface) along side with DatabasePersister
-- 
+
