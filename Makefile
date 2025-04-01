@@ -46,7 +46,7 @@ test:
 	docker exec $(application_container_name) bash -c "APP_ENV=test bin/console --env=test doctrine:fixtures:load --no-interaction"
 	docker exec $(application_container_name) bash -c "APP_ENV=test vendor/bin/phpunit --testdox"
 
-setup:
+run-build:
 	$(MAKE) build && \
 	$(MAKE) start && \
 	$(MAKE) db_migrate && \

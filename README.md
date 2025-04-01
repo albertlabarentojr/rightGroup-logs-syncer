@@ -13,7 +13,7 @@
 ## Let's run the app
 
 1. Run a single command in one go to make it up and running
-   > `make setup`
+   > `make run-build`
 
 2. Navigate to https://localhost/dashboard
    - Initially, we don't have any logs yet
@@ -49,3 +49,12 @@ Core logic for the syncer functionality is located here `src/Service/Log`
 Front end assets are located here `assets/vue`
 
 ![Screenshot 2025-04-02 at 12.06.23 AM.png](readme_files/Screenshot%202025-04-02%20at%2012.06.23%E2%80%AFAM.png)
+
+### What I could have done better
+
+- Domain Driven Development (File Structuring)
+- OpenApi using swagger
+- 100% test coverage
+- Front-end components using Storybook
+- Add an additional driver as AlgoliaPersister (LogPersisterInterface) along side with DatabasePersister
+- 
