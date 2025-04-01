@@ -1,6 +1,6 @@
 <template>
     <div class="counter-widget">
-        <div class="counter-text">Total Logs: <span class="counter-number">{{ count }}</span></div>
+        <div class="counter-text">{{ title }}: <span class="counter-number">{{ count }}</span></div>
     </div>
 </template>
 
@@ -12,6 +12,10 @@ const props = defineProps({
         type: Number,
         required: true
     },
+    title: {
+        type: String,
+        required: false
+    }
 });
 </script>
 

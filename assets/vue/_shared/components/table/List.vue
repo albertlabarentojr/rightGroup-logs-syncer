@@ -7,14 +7,6 @@ const props = defineProps({
     data: {type: Array, required: false, default: () => []}
 })
 
-const formatter = (row, col) => {
-    if (col.field instanceof Function) {
-        return col.field(row);
-    }
-
-    return row[col.field] ?? '-';
-}
-
 </script>
 
 <template>
