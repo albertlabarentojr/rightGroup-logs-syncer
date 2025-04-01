@@ -4,36 +4,6 @@ import {onMounted, reactive, ref, watch} from "vue";
 import App from '../../../_shared/components';
 import moment from "moment";
 
-const table = reactive({
-    isLoading: false,
-    columns: [
-        {
-            label: "ID",
-            field: "id",
-        },
-        {
-            label: "Name",
-            field: "name",
-        },
-        {
-            label: "Email",
-            field: "email",
-        },
-    ],
-    rows: [
-        {
-            'id': 1,
-            'name': 'John',
-            'email': 'john@mail.com'
-        }
-    ],
-    totalRecordCount: 0,
-    sortable: {
-        order: "id",
-        sort: "asc",
-    },
-});
-
 const filters = reactive({
     serviceNames: [],
     statusCode: null,
