@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\ServiceLog;
 
 use App\Repository\ServiceLog\ServiceLogFilter;
 use App\Repository\ServiceLog\ServiceLogRepository;
@@ -15,13 +15,13 @@ final class AnalyticsController extends AbstractController {
     {
     }
 
-    #[Route('/dashboard', name: 'analytics.dashboard', methods: ['GET'])]
+    #[Route('/dashboard', name: 'service_log.analytics.dashboard', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('analytics/dashboard.html.twig');
     }
 
-    #[Route('/api/count', name: 'analytics.count', methods: ['GET'])]
+    #[Route('/api/count', name: 'service_log.analytics.count', methods: ['GET'])]
     public function count(Request $request): Response
     {
         return $this->json([

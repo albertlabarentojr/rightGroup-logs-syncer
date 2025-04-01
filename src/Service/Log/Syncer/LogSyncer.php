@@ -45,14 +45,16 @@ final class LogSyncer implements LogSyncerInterface
             );
         }
 
-        if ($latestHistory?->getTotal() === $total) {
+        $latestTotal = $latestHistory?->getTotal();
+
+        if ($total === $latestTotal) {
             return new LogSyncerResult(
                 serviceSyncHistory: $latestHistory,
                 message: 'No new logs are available for syncing.',
             );
         }
 
-        if ($total < $latestHistory?->getTotal()) {
+        if ($total < $latestTotal) {
             throw new LogSyncerException('Aggregated file seems to be corrupted.');
         }
 
@@ -60,7 +62,7 @@ final class LogSyncer implements LogSyncerInterface
 
         $this->messageBus->dispatch(new BatchSyncLogStartedMessage($logHistory->getId()));
 
-        for ($start = 0; $start < $total; $start += $this->batchCount) {
+        for ($start =  $logHistory->getLineStart() - 1; $start < $total; $start += $this->batchCount) {
             $next = $start + $this->batchCount;
 
             $end = min($next, $total); // Ensure the end does not exceed total items
@@ -76,7 +78,7 @@ final class LogSyncer implements LogSyncerInterface
             );
         }
 
-        $newLogCount = $logHistory->getTotal() - $logHistory->getLineStart();
+        $newLogCount = ($logHistory->getTotal() - $logHistory->getLineStart()) + 1;
 
         return new LogSyncerResult(
             serviceSyncHistory: $logHistory,
@@ -101,7 +103,7 @@ final class LogSyncer implements LogSyncerInterface
     {
         $latestHistory = $this->historyRepository->latest();
 
-        $lineStart = 0;
+        $lineStart = 1;
         $lineEnd = $total;
 
         if ($latestHistory) {
