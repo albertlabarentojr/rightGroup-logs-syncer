@@ -1,10 +1,9 @@
 <script setup>
 import App from '../../../_shared/components';
-import {onMounted, onServerPrefetch, reactive, computed} from "vue";
+import {computed, reactive} from "vue";
 import useFetchCount from "../composables/useFetchCount";
 import ServiceLogFilter from "../components/ServiceLogFilter.vue";
 import useFetchServiceLogs from "../composables/useFetchServiceLogs";
-import moment from "moment-timezone";
 import ServiceLogTable from "../components/ServiceLogTable.vue";
 
 const dateFormat = 'DD/MMM/YYYY HH:mm:ss z';
