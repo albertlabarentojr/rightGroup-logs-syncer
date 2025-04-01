@@ -34,7 +34,19 @@ class ServiceLogRepository extends ServiceEntityRepository
     {
         $query = $this->withFilterQuery($filter);
 
-        return QueryPaginator::paginate($query, $paginationData);
+        $itemTransformer = static function (array $serviceLog): array {
+            $serviceLog['service_name'] = implode(
+                ' ',
+                array_map(
+                    'ucfirst',
+                    explode('-', $serviceLog['service_name'])
+                )
+            );
+
+            return $serviceLog;
+        };
+
+        return QueryPaginator::paginate($query, $paginationData, $itemTransformer);
     }
 
     public function delete(int $id): void
@@ -74,12 +86,12 @@ class ServiceLogRepository extends ServiceEntityRepository
 
         // Handle date range filters
         if ($filter->startDate) {
-            $conditions[] = 'sl.created_at >= :startDate';
+            $conditions[] = 'sl.log_date >= :startDate';
             $query->setParameter('startDate', $filter->startDate);
         }
 
         if ($filter->endDate) {
-            $conditions[] = 'sl.created_at <= :endDate';
+            $conditions[] = 'sl.log_date <= :endDate';
             $query->setParameter('endDate', $filter->endDate);
         }
 

@@ -1,69 +1,109 @@
 <script setup>
 import App from '../../../_shared/components';
-import {onMounted, onServerPrefetch, reactive} from "vue";
+import {onMounted, onServerPrefetch, reactive, computed} from "vue";
 import useFetchCount from "../composables/useFetchCount";
-import ServiceNameSelect from "../components/ServiceNameSelect.vue";
 import ServiceLogFilter from "../components/ServiceLogFilter.vue";
+import useFetchServiceLogs from "../composables/useFetchServiceLogs";
+import moment from "moment-timezone";
+
+const dateFormat = 'DD/MMM/YYYY HH:mm:ss z';
 
 const table = reactive({
     isLoading: false,
     columns: [
         {
-            label: "ID",
-            field: "id",
+            label: "Service Name",
+            field: "service_name",
         },
         {
-            label: "Name",
-            field: "name",
+            label: "Date",
+            field: 'log_date',
         },
         {
-            label: "Email",
-            field: "email",
+            label: "Url",
+            field: "url",
+        },
+        {
+            label: "Status Code",
+            field: "status_code",
+        },
+        {
+            label: "Http Verb",
+            field: "http_verb",
+        },
+        {
+            label: "Http Version",
+            field: "http_version",
+        },
+        {
+            label: "Action",
+            field: "action",
         },
     ],
-    rows: [
-        {
-            'id': 1,
-            'name': 'John',
-            'email': 'john@mail.com'
-        }
-    ],
-    totalRecordCount: 0,
-    sortable: {
-        order: "id",
-        sort: "asc",
+    pagination: {
+        page: 1,
+        pages: 0,
     },
+    filters: {},
 });
 
-const {isLoading, run: runFetchCount, data} = useFetchCount({
-    serviceNames: ['user-service'],
-    statusCode: 201,
+const {isLoadingCount, run: runFetchCount, data: countData} = useFetchCount();
+const {isLoadingLogs, run: runFetchLogs, data: serviceLogs} = useFetchServiceLogs();
+
+const query = computed(() => {
+    if (!table.filters.serviceNames) {
+        return;
+    }
+
+    const mapped = {...table.filters};
+
+    mapped.serviceNames = table.filters.serviceNames.map(({value}) => value);
+
+    return mapped;
 });
 
-const fetchCount = async () => {
-    runFetchCount();
+const fetchPaginatedLogs = async () => {
+    await runFetchLogs({...query.value, ...table.pagination});
+
+    table.pagination.pages = serviceLogs.value.pages;
 }
 
-onMounted(() => {
-    fetchCount();
-})
+const fetchDashboardData = () => {
+    runFetchCount(query.value);
+    fetchPaginatedLogs();
+}
 </script>
 
 <template>
-<div class="container main centered">
-    <App.Dashboard.CounterWidget
-        title="Total logs"
-        :count="3.45"
-        :percentage="3.4"
-    ></App.Dashboard.CounterWidget>
+    <div class="container main centered">
+        <ServiceLogFilter @on-filter="fetchDashboardData" v-model:filters="table.filters"></ServiceLogFilter>
 
-    <ServiceLogFilter></ServiceLogFilter>
+        <App.Dashboard.CounterWidget
+            title="Total logs"
+            :count="countData?.count ?? 0"
+        ></App.Dashboard.CounterWidget>
 
-    <App.Table.List
-        :columns="table.columns"
-        :data="table.rows"
-    ></App.Table.List>
-</div>
+        <div>
+            <App.Table.List
+                :columns="table.columns"
+                :data="serviceLogs?.items ?? []"
+            >
+                <template #log_date="{log_date}">
+                    {{ moment.tz(log_date.date, log_date.timezone).format(dateFormat) }}
+                </template>
+
+                <template #action="{log_date}">
+                    <App.Button.Default>Delete</App.Button.Default>
+                </template>
+            </App.Table.List>
+
+            <App.Table.Pagination
+                v-model:page="table.pagination.page"
+                :pages="table.pagination.pages"
+                @on-paginate="fetchDashboardData"
+            />
+        </div>
+    </div>
 </template>
 
 <style scoped>

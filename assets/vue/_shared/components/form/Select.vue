@@ -10,7 +10,12 @@ defineProps({
     multiple: {type: Boolean, required: false, default: false}
 })
 
-const emits = defineEmits(['update:modelValue']);
+const emits = defineEmits(['update:modelValue', 'onChange']);
+
+const onChange = (value) => {
+    emits('update:modelValue', value)
+    emits('onChange', value)
+}
 </script>
 
 
@@ -22,7 +27,8 @@ const emits = defineEmits(['update:modelValue']);
         :label="text"
         :track-by="value"
         :options="options"
-        @update:model-value="(value) => emits('update:modelValue', value)">
+        @update:model-value="onChange"
+    >
     </VueMultiselect>
 </template>
 

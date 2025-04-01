@@ -7,13 +7,19 @@ const props = defineProps({
     isDatetime: {type: Boolean, required: false, default: false}
 })
 
+const emit = defineEmits(['update:modelValue']);
+
 const inputType = computed(() => {
     return props.isDatetime ? 'datetime-local': 'date';
 })
 </script>
 
 <template>
-    <input :type="inputType">
+    <input
+        :type="inputType"
+        :modal-value="modelValue"
+        @change="event => emit('update:modelValue', event.target.value)"
+        :value="modelValue">
 </template>
 
 <style scoped>

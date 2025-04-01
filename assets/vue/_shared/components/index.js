@@ -2,6 +2,7 @@ import {defineAsyncComponent} from 'vue'
 
 const Table = {
   List: defineAsyncComponent(() => import('./table/List.vue')),
+  Pagination: defineAsyncComponent(() => import('./table/Pagination.vue')),
 }
 
 const Dashboard = {
@@ -13,10 +14,15 @@ const Form = {
   Text: defineAsyncComponent(() => import('./form/Text.vue')),
   Datepicker: defineAsyncComponent(() => import('./form/Datepicker.vue')),
   DateRangePicker: defineAsyncComponent(() => import('./form/DateRangePicker.vue')),
-};
+}
+
+const Button = {
+  Default: defineAsyncComponent(() => import('./button/Default.vue')),
+}
 
 export default {
   Table,
   Dashboard,
   Form,
+  Button,
 }
