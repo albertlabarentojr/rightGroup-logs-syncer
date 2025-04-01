@@ -20,6 +20,7 @@
 
 3. Let's sync our logs from an aggregated log file located at `shared_logs/logs.log`
    > `make sync_logs`
+
    ![Screenshot 2025-04-01 at 11.47.12 PM.png](readme_files/Screenshot%202025-04-01%20at%2011.47.12%E2%80%AFPM.png)
 
 4. Once synced, logs will be stored in the database
