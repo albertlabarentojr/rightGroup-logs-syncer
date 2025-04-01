@@ -18,7 +18,7 @@
 2. Navigate to https://localhost/dashboard
    - Initially, we don't have any logs yet
 
-3. Let's sync our logs from an aggregated log file located at `shared_logs/logs.log`
+3. Let's sync our logs from an aggregated log file located at `shared_logs/logs.log`, syncer will create batch of messages that will be processed asynchronously
    > `make sync_logs`
 
    ![Screenshot 2025-04-01 at 11.47.12 PM.png](readme_files/Screenshot%202025-04-01%20at%2011.47.12%E2%80%AFPM.png)
