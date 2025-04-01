@@ -24,9 +24,6 @@ db_migrate: ## Run database migration
 db_diff_migrate: ## Run doctrine diff and migrate
 	docker exec $(application_container_name) bin/console doctrine:migrations:diff --no-interaction
 
-db_test_migrate: ## Run migration for app_test database
-	docker exec $(application_container_name) bin/console doctrine:database:create --env=test
-
 cache_clear: ## Cache clear
 	docker exec $(application_container_name) bin/console cache:clear
 
@@ -35,7 +32,22 @@ setup: \
 
 sync_logs: ## Run service log syncer
 	docker exec $(application_container_name) bin/console service_log:sync
-	docker exec $(application_container_name) bin/console messenger:consume async -vv
+	docker exec $(application_container_name) bin/console messenger:consume async
 
-watch:
+watch: ## Run frontend file watcher
 	docker exec $(application_container_name) npm run watch
+
+frontend: ## Run frontend build
+	docker exec $(application_container_name) npm run dev
+
+test:
+	docker exec $(application_container_name) bash -c "APP_ENV=test bin/console doctrine:database:create --if-not-exists"
+	docker exec $(application_container_name) bash -c "APP_ENV=test bin/console doctrine:migrations:migrate --no-interaction"
+	docker exec $(application_container_name) bash -c "APP_ENV=test bin/console --env=test doctrine:fixtures:load --no-interaction"
+	docker exec $(application_container_name) bash -c "APP_ENV=test vendor/bin/phpunit --testdox"
+
+setup:
+	$(MAKE) build && \
+	$(MAKE) start && \
+	$(MAKE) db_migrate && \
+	$(MAKE) frontend

@@ -9,7 +9,7 @@ use App\Tests\Service\Log\Syncer\AbstractSyncerTestCase;
 
 final class LogFileReaderTest extends AbstractSyncerTestCase
 {
-    public function testCursor(): void
+    public function testCursorShouldIterateLineByLine(): void
     {
         $fileContents = [
             'USER-SERVICE - - [17/Aug/2018:09:21:53 +0000] "POST /users HTTP/1.1" 201',
@@ -26,7 +26,7 @@ final class LogFileReaderTest extends AbstractSyncerTestCase
         }
     }
 
-    public function testGetTotalLines(): void
+    public function testGetTotalLinesShouldMatchFileNumberOfLines(): void
     {
         $fileReader = $this->getFileReader();
 

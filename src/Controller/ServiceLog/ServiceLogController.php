@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\ServiceLog;
 
 use App\Repository\Data\PaginationData;
 use App\Repository\ServiceLog\ServiceLogFilter;
