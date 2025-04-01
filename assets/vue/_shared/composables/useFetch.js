@@ -6,11 +6,11 @@ export default function useFetch(promise) {
   const error = ref(null);
   const data = ref(null);
 
-  const run = async () => {
+  const run = async (params = null) => {
     isLoading.value = true;
 
     try {
-      const response = await promise;
+      const response = await promise(params);
 
       data.value = response;
     } catch (error) {

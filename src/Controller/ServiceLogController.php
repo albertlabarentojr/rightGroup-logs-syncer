@@ -24,7 +24,7 @@ final class ServiceLogController extends AbstractController
             $this->serviceLogRepository->paginated(
                 filter: ServiceLogFilter::fromRequest($request->query->all()),
                 paginationData: PaginationData::fromRequest($request),
-            )
+            )->toArray()
         );
     }
 

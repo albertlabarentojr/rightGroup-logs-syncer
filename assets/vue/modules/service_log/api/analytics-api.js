@@ -1,7 +1,7 @@
 import {getBaseUrl, toQueryParams} from "./_utils";
 
 export default {
-  async count({
+  async getCount({
     serviceNames= null,
     statusCode = null,
     startDate = null,
@@ -19,6 +19,6 @@ export default {
       method: 'GET',
     });
 
-    return response;
+    return await response.json();
   }
 }

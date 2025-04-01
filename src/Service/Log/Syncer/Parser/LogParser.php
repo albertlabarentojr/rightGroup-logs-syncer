@@ -27,12 +27,10 @@ final class LogParser implements LogParserInterface
                 continue;
             }
 
-            if ($this->logReader->getCurrentLine() <= $lineStop) {
-                yield $this->transform($log);
+            yield $this->transform($log);
 
-                if ($this->logReader->getCurrentLine() === $lineStop) {
-                    break;
-                }
+            if ($this->logReader->getCurrentLine() === $lineStop) {
+                break;
             }
         }
     }

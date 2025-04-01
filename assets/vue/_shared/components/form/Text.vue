@@ -10,7 +10,12 @@ const emits = defineEmits(['update:modelValue']);
 </script>
 
 <template>
-    <input type="text" :model-value="modelValue" :placeholder="placeholder">
+    <input
+        type="text"
+        :placeholder="placeholder"
+        :value="modelValue"
+        @change="event => emits('update:modelValue', event.target.value)"
+    />
 </template>
 
 <style scoped>

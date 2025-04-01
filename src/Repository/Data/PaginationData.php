@@ -23,8 +23,8 @@ final class PaginationData
     public static function fromRequest(Request $request): self
     {
         return new self(
-            page: $request->query->get('page'),
-            perPage: $request->query->get('perPage'),
+            page: (int) $request->query->get('page', self::DEFAULT_PAGE),
+            perPage: (int) $request->query->get('perPage', self::DEFAULT_PER_PAGE),
         );
     }
 }

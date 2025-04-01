@@ -7,19 +7,32 @@ const props = defineProps({
     data: {type: Array, required: false, default: () => []}
 })
 
+const formatter = (row, col) => {
+    if (col.field instanceof Function) {
+        return col.field(row);
+    }
+
+    return row[col.field] ?? '-';
+}
+
 </script>
 
 <template>
     <table>
         <thead>
-            <tr>
-                <th v-for="header in columns">{{ header.label }}</th>
-            </tr>
-            </thead>
-            <tbody>
+        <tr>
+            <th v-for="header in columns">{{ header.label }}</th>
+        </tr>
+        </thead>
+        <tbody>
             <tr v-for="row in data">
-                <td v-for="col in columns" :data-label="row.field">{{ row[col.field] ?? '-' }}</td>
+                <td v-for="col in columns" :data-label="row.field">
+                    <slot :name="col.field" v-bind="row">
+                        {{ row[col.field] ?? '-' }}
+                    </slot>
+                </td>
             </tr>
+            <tr v-if="data.length === 0" :row="columns.length">No records to display</tr>
         </tbody>
     </table>
 </template>

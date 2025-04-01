@@ -21,7 +21,7 @@ final class PaginatedResult
             'items' => $this->items,
             'total' => $this->total,
             'page' => $this->paginationData->page,
-            'limit' => $this->paginationData->perPage,
+            'per_page' => $this->paginationData->perPage,
             'pages' => $this->pages,
         ];
     }

@@ -32,7 +32,7 @@ const emits = defineEmits(['update:modelValue'])
         :name="name"
         :placeholder="placeholder"
         :options="select.options"
-        @update:model-value="(value) => emits('update:modelValue', value)"
+        @update:model-value="value => emits('update:modelValue', value)"
     ></App.Form.Select>
 </template>
 
